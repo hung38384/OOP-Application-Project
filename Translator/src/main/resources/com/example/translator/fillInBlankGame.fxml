@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+<StackPane xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" fx:controller="com.example.translator.FillInBlankGameController">
+    <stylesheets>
+        <URL value="@styles.css" />
+    </stylesheets>
+    <ImageView fx:id="gameBackground" fitHeight="400" fitWidth="600" />
+    <VBox alignment="CENTER">
+        <Label text="Trò chơi Điền từ Còn Thiếu" styleClass="game-title" />
+        <Label fx:id="scoreLabel" text="Điểm: 0" styleClass="game-score" />
+        <Label fx:id="questionLabel" styleClass="game-question" />
+        <TextField fx:id="answerField" promptText="Nhập câu trả lời của bạn" maxWidth="200" />
+        <Button text="Kiểm tra câu trả lời" onAction="#checkAnswer" />
+    </VBox>
+</StackPane>
+

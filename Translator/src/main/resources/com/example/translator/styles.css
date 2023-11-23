@@ -1,0 +1,21 @@
+/* styles.css */
+.game-title {
+    -fx-font-size: 24px;
+    -fx-text-fill: #d985cd; /* Màu chữ là màu hồng đậm */
+    -fx-effect: dropshadow(gaussian, black, 2, 10, 0, 0);
+    -fx-padding: 5px; /* Khoảng cách giữa chữ và bóng đen */
+}
+
+.game-question {
+    -fx-font-size: 18px;
+    -fx-text-fill: #d985cd; /* Màu chữ là màu hồng đậm */
+    -fx-effect: dropshadow(gaussian, black, 2, 10, 0, 0);
+    -fx-padding: 5px; /* Khoảng cách giữa chữ và bóng đen */
+}
+
+.game-score {
+    -fx-font-size: 15px;
+    -fx-text-fill: #d985cd; /* Màu chữ là màu hồng đậm */
+    -fx-effect: dropshadow(gaussian, black, 2, 10, 0, 0);
+    -fx-padding: 5px; /* Khoảng cách giữa chữ và bóng đen */
+}
