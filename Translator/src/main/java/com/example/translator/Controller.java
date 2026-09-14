@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Optional;
 
 public class Controller {
@@ -169,11 +171,35 @@ public class Controller {
 
     private ArrayList<String> searchList(String searchWords, ArrayList<Word> dict) {
         ArrayList<String> searchResultArray = new ArrayList<>();
-        for (Word word : dict) {
-            if (word.getWord_target().startsWith(searchWords)) {
-                searchResultArray.add(word.getWord_target());
+        if (dict.size() <= 1 || searchWords.isEmpty()) {
+            for (int i = 1; i < dict.size(); i++) {
+                if (dict.get(i).getWord_target().startsWith(searchWords)) {
+                    searchResultArray.add(dict.get(i).getWord_target());
+                }
+            }
+            return searchResultArray;
+        }
+
+        Word searchWord = new Word(searchWords, "", "");
+        int index = Collections.binarySearch(
+                dict.subList(1, dict.size()),
+                searchWord,
+                Comparator.comparing(Word::getWord_target)
+        );
+
+        if (index < 0) {
+            index = -(index + 1);
+        }
+
+        // Collect all matching words starting from the found index
+        for (int i = index + 1; i < dict.size(); i++) {
+            if (dict.get(i).getWord_target().startsWith(searchWords)) {
+                searchResultArray.add(dict.get(i).getWord_target());
+            } else {
+                break; // Because it's sorted, we can stop as soon as it doesn't match
             }
         }
+
         return searchResultArray;
     }
 
