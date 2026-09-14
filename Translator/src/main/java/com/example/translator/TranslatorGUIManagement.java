@@ -2,6 +2,8 @@ package com.example.translator;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Objects;
 
 public class TranslatorGUIManagement {
@@ -48,6 +50,10 @@ public class TranslatorGUIManagement {
                 TranslatorGUI.dict.add(word);
             }
             bufferedReader.close();
+
+            if (TranslatorGUI.dict.size() > 1) {
+                Collections.sort(TranslatorGUI.dict.subList(1, TranslatorGUI.dict.size()), Comparator.comparing(Word::getWord_target));
+            }
         } catch (FileNotFoundException e) {
             System.out.println("Please check file directory");
         }
@@ -97,17 +103,25 @@ public class TranslatorGUIManagement {
      */
     public static boolean addWord(String wordTarget, String wordSpelling, String wordDef) {
         Word word = new Word(wordTarget,wordSpelling,wordDef);
-        for (int i = 1; i < TranslatorGUI.dict.size()-1; i++) {
-            if (compare2String(TranslatorGUI.dict.get(i).getWord_target(),wordTarget) == 0) {
-                return false;
-            }
 
-            if (compare2String(TranslatorGUI.dict.get(i).getWord_target(),wordTarget) < 0 && compare2String(TranslatorGUI.dict.get(i+1).getWord_target(),wordTarget) > 0) {
-                TranslatorGUI.dict.add(i+1,word);
-                return true;
-            }
+        if (TranslatorGUI.dict.size() <= 1) {
+            TranslatorGUI.dict.add(word);
+            return true;
         }
-        TranslatorGUI.dict.add(word);
+
+        int index = Collections.binarySearch(
+                TranslatorGUI.dict.subList(1, TranslatorGUI.dict.size()),
+                word,
+                Comparator.comparing(Word::getWord_target)
+        );
+
+        if (index >= 0) {
+            return false; // Word already exists
+        }
+
+        // Calculate insertion point
+        int insertionPoint = -(index + 1) + 1; // +1 because subList starts at index 1
+        TranslatorGUI.dict.add(insertionPoint, word);
         return true;
     }
 
@@ -126,10 +140,17 @@ public class TranslatorGUIManagement {
     }
 
     public static int DictionaryGUILookup(String lookUpWord) {
-        for (int i = 1; i < TranslatorGUI.dict.size(); i++) {
-            if (TranslatorGUI.dict.get(i).getWord_target().equals(lookUpWord)) {
-                return i;
-            }
+        if (TranslatorGUI.dict.size() <= 1) return 0;
+
+        Word searchWord = new Word(lookUpWord, "", "");
+        int index = Collections.binarySearch(
+                TranslatorGUI.dict.subList(1, TranslatorGUI.dict.size()),
+                searchWord,
+                Comparator.comparing(Word::getWord_target)
+        );
+
+        if (index >= 0) {
+            return index + 1; // +1 because we searched in subList(1, size)
         }
         return 0;
     }
