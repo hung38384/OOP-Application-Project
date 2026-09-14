@@ -9,7 +9,7 @@ public class TranslatorGUIManagement {
     public static void insertDictGUIDataFromFile() throws IOException {
         try {
             //DictionaryGUI.dict.set(0,new Word("","",""));
-            File file2 = new File("/Users/admin/Desktop/Translator/src/main/resources/dictionary.txt");
+            File file2 = new File("src/main/resources/dictionary.txt");
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file2)));
             StringBuilder target = new StringBuilder().append("DICTIONARY APP");
             StringBuilder res = new StringBuilder().append("");
@@ -42,6 +42,10 @@ public class TranslatorGUIManagement {
                     }
 
                 }
+            }
+            if (target.length() > 0) {
+                Word word = new Word(target.toString().trim(), spelling, res.toString());
+                TranslatorGUI.dict.add(word);
             }
             bufferedReader.close();
         } catch (FileNotFoundException e) {
